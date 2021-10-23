@@ -13,13 +13,14 @@
 </head>
 <body>
     <h1>Fill the form:</h1>
-    <form action="" enctype="multipart/form-data">
+    <form action="http://localhost:8080/form/" method="post" enctype="multipart/form-data">
         <label for="name">Enter first name:</label>
-        <input type="text" id="name"><br>
+        <input type="text" name="name"><br>
         <label for="email">Enter your mail address</label>
-        <input type="email" id="email"><br>
-        <label for="image" id="profile">Upload profile picture</label>
-        <input type="file" id="profile"><br>
+        <input type="email" name="email"><br>
+        <label for="image">Upload profile picture</label>
+        <input type="file" name="profile"><br>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
