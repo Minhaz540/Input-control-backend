@@ -2,6 +2,7 @@
 const express = require("express");
 const multer = require("multer");
 const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
 const path = require("path");
 const formData = express.Router();
 
@@ -51,11 +52,21 @@ const upload = multer({
 });
 
 formData.get("/", (req, res) => {
-	res.send("Goodbye forever or best of luck?");
+	res.send('<img src="201-35-3001-1634970387946.png">');
 });
 
-formData.post("/", upload.single("profile"), (req, res) => {
-	res.send("Uploaded successfully");
+formData.post("/", upload.single("profile"), (req, res, next) => {
+	let options = {
+		root: path.join(__dirname),
+	};
+	let fileName = "showData.html";
+	res.sendFile(fileName, options, function (err) {
+		if (err) {
+			next(err);
+		} else {
+			next();
+		}
+	});
 });
 
 module.exports = formData;
