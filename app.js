@@ -22,9 +22,9 @@ mongoose
 		console.log("Error is: ", err);
 	});
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
 	res.send("All ok");
-})
+});
 
 app.use("/form", router);
 

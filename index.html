@@ -15,11 +15,11 @@
     <h1>Fill the form:</h1>
     <form action="http://localhost:8080/form/" method="post" enctype="multipart/form-data">
         <label for="name">Enter first name:</label>
-        <input type="text" name="name"><br>
+        <input type="text" name="name" required><br>
         <label for="email">Enter your mail address</label>
-        <input type="email" name="email"><br>
+        <input type="email" name="email" required><br>
         <label for="image">Upload profile picture</label>
-        <input type="file" name="profile"><br>
+        <input type="file" name="profile" required><br>
         <button type="submit">Submit</button>
     </form>
 </body>
