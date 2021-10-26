@@ -22,6 +22,14 @@ mongoose
 		console.log("Error is: ", err);
 	});
 
+const connection = mongoose.connection;
+connection.on("connected", () => {
+	console.log("<Database is connected>");
+});
+connection.on("disconnected", () => {
+	console.log("<Database disconnected>");
+})
+
 app.get("/", (req, res) => {
 	res.send("All ok");
 });
