@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const multer = require("multer");
 const dotenv = require("dotenv");
-const bodyParser = require("body-parser");
 const path = require("path");
-const formDataModel = require("../schema");
+const formDataModel = require("./schema");
 const formData = express.Router();
 
 dotenv.config();
@@ -51,15 +50,13 @@ const upload = multer({
 		} else {
 			callback(new Error("Upload failed"));
 		}
-		formDataValue = req.body;
-		console.log(formDataValue);
 	},
 });
 
 //save formData into database
 
 formData.get("/", (req, res) => {
-	res.send('<img src="201-35-3001-1634970387946.png">');
+	res.render();
 });
 
 formData.post("/", upload.single("profile"), (req, res, next) => {

@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 // const formDataModel = require("./schema");
 const router = express.Router();
-const formData = require("./controller/formData");
+const formData = require("./formData");
 
 router.use("/", formData);
 
