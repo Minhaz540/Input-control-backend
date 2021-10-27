@@ -8,8 +8,7 @@ const formData = express.Router();
 
 dotenv.config();
 const { UPLOAD_FOLDER } = process.env;
-
-let formDataValue;
+let uploadFileName;
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
@@ -25,7 +24,8 @@ const storage = multer.diskStorage({
 				.join("-") +
 			"-" +
 			Date.now();
-		callback(null, fileName + extName);
+		uploadFileName = fileName + extName;
+		callback(null, uploadFileName);
 	},
 });
 
@@ -62,11 +62,10 @@ formData.get("/", (req, res) => {
 				error: "There was a server side error while showing data",
 			});
 		} else {
-			res.render("allData", {data});
+			res.render("allData", { data, uploadFileName });
 		}
 	});
-})
-			
+});
 
 formData.post("/", upload.single("profile"), (req, res, next) => {
 	let options = {

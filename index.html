@@ -5,21 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Control System</title>
-    <style type="text/css">
-        input {
-            margin: 10px;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="./public/styles/data.css">
 </head>
 <body>
     <h1>Fill the form:</h1>
     <form action="http://localhost:8080/form/" method="post" enctype="multipart/form-data">
-        <label for="name">Enter first name:</label>
-        <input type="text" name="name" required><br>
-        <label for="email">Enter your mail address</label>
-        <input type="email" name="email" required><br>
-        <label for="image">Upload profile picture</label>
-        <input type="file" name="profile"><br>
+        <input type="text" name="name" placeholder="Enter your name" required><br>
+        <input type="email" name="email" placeholder="Enter your email address" required><br>
+        <input type="number" name="age" placeholder="Enter your age" required><br>
+        <input type="file" name="profile" placeholder="Upload profile picture"><br>
         <button type="submit">Submit</button>
     </form>
 </body>

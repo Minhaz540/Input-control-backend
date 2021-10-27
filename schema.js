@@ -7,6 +7,13 @@ const schema = mongoose.Schema({
     email: {
         type: String,
         required: true,
+    },
+    age: {
+        type: Number,
+        require: true
+    },
+    imgFileName: {
+        type: String,
     }
 });
 
