@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Show all data</title>
+        <link type="text/css" rel="stylesheet" href="../styles/data.css">
+	</head>
+	<body>
+		<div class="profile-pic"></div>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+                <% try { %> 
+                    <%# for (let i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td><%= data[data.length-1].name %></td>
+                            <td><%= data[data.length-1].email %></td>
+                        </tr>
+                    <%# } %>
+                <% } catch (e) { %> 
+                    <p>Enternal server error ⚠</p>
+                    <p><%= e %> </p>
+                <% } %> 
+            </tbody>
+        </table>
+	</body>
+</html>

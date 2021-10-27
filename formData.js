@@ -3,7 +3,7 @@ const express = require("express");
 const multer = require("multer");
 const dotenv = require("dotenv");
 const path = require("path");
-const formDataModel = require("./schema");
+const FormDataModel = require("./schema");
 const formData = express.Router();
 
 dotenv.config();
@@ -56,15 +56,24 @@ const upload = multer({
 //save formData into database
 
 formData.get("/", (req, res) => {
-	res.render();
-});
+	FormDataModel.find({}, (err, data) => {
+		if (err) {
+			res.status(500).json({
+				error: "There was a server side error while showing data",
+			});
+		} else {
+			res.render("allData", {data});
+		}
+	});
+})
+			
 
 formData.post("/", upload.single("profile"), (req, res, next) => {
 	let options = {
 		root: path.join(__dirname),
 	};
 
-	const newForm = new formDataModel(req.body);
+	const newForm = new FormDataModel(req.body);
 	newForm.save((err) => {
 		if (err) {
 			res.status(500).json({

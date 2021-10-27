@@ -1,16 +1,13 @@
-// const mongoose = require("mongoose");
 const express = require("express");
-// const multer = require("multer");
 const path = require("path");
-// const formDataModel = require("./schema");
 const router = express.Router();
 const formData = require("./formData");
 
 router.use("/", formData);
 
 //render file
-router.get("/all", (req, res) => {
-	res.sendFile(path.join(__dirname + "/showData.html"));
+router.get("/all", async (req, res) => {
+	await res.sendFile(path.join(__dirname + "/showData.html"));
 });
 
 router.get("/welcome", (req, res) => {

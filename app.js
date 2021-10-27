@@ -21,7 +21,7 @@ mongoose
 		console.log("Database connection established...");
 	})
 	.catch((err) => {
-		console.log("Error is: ", err);
+		console.error("Error is: ", err);
 	});
 
 const connection = mongoose.connection;
