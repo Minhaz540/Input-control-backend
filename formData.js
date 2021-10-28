@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const multer = require("multer");
 const dotenv = require("dotenv");
@@ -26,6 +25,18 @@ const storage = multer.diskStorage({
 			Date.now();
 		uploadFileName = fileName + extName;
 		callback(null, uploadFileName);
+		// image file name preservation to the mongodb database
+		FormDataModel.findOneAndUpdate(
+			{ name: "minhazrabbi" },
+			{ $push: { imgFileName: uploadFileName } },
+			function (error, success) {
+				if (error) {
+					console.log("error: ", error);
+				} else {
+					console.log("Success: ",success);
+				}
+			}
+		);
 	},
 });
 
@@ -71,7 +82,6 @@ formData.post("/", upload.single("profile"), (req, res, next) => {
 	let options = {
 		root: path.join(__dirname),
 	};
-
 	const newForm = new FormDataModel(req.body);
 	newForm.save((err) => {
 		if (err) {
