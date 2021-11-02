@@ -1,6 +1,27 @@
 body {
     background-color: aliceblue;
 }
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.profile-container {
+    padding: 14px 0px;
+    justify-content: center;
+    display: flex;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(209, 231, 235);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
 td, th {
     padding: 3px 4px;
 }
@@ -13,6 +34,13 @@ img {
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+}
+.img-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 table {
     margin: 10px;
@@ -34,4 +62,7 @@ form {
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
+}
+h2 {
+    text-decoration: underline;
 }

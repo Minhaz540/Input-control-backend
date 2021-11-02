@@ -8,13 +8,15 @@
     <link type="text/css" rel="stylesheet" href="./public/styles/data.css">
 </head>
 <body>
-    <h1>Fill the form:</h1>
+    <h1>Fill the form for Registration:</h1>
     <form action="http://localhost:8080/form/" method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Enter your name" required><br>
         <input type="email" name="email" placeholder="Enter your email address" required><br>
+        <input type="password" name="password" placeholder="Enter your password" required><br>
         <input type="number" name="age" placeholder="Enter your age" required><br>
-        <input type="file" name="profile" placeholder="Upload profile picture"><br>
+        <input type="file" name="profile" placeholder="Upload profile picture" required><br>
         <button type="submit">Submit</button>
     </form>
+    <h3>Already have and account? <a href="http://localhost:8080/form/login/">Login now</a></h3>
 </body>
 </html>

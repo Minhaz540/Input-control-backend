@@ -1,9 +1,11 @@
 const express = require("express");
+const formData = express.Router();
 const multer = require("multer");
 const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
 const path = require("path");
+const {unlink} = require("fs");
 const FormDataModel = require("./schema");
-const formData = express.Router();
 
 dotenv.config();
 const { UPLOAD_FOLDER } = process.env;
@@ -25,18 +27,6 @@ const storage = multer.diskStorage({
 			Date.now();
 		uploadFileName = fileName + extName;
 		callback(null, uploadFileName);
-		// image file name preservation to the mongodb database
-		FormDataModel.findOneAndUpdate(
-			{ name: "minhazrabbi" },
-			{ $push: { imgFileName: uploadFileName } },
-			function (error, success) {
-				if (error) {
-					console.log("error: ", error);
-				} else {
-					console.log("Success: ",success);
-				}
-			}
-		);
 	},
 });
 
@@ -73,30 +63,42 @@ formData.get("/", (req, res) => {
 				error: "There was a server side error while showing data",
 			});
 		} else {
-			res.render("allData", { data, uploadFileName });
+			res.render("allData", { data });
 		}
 	});
 });
 
-formData.post("/", upload.single("profile"), (req, res, next) => {
-	let options = {
-		root: path.join(__dirname),
-	};
-	const newForm = new FormDataModel(req.body);
+formData.post("/", upload.single("profile"), (req, res) => {
+	// const saltRounds = 10;
+	// const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+	let hashedPassword;
+	bcrypt.hash(req.body.password, 10).then(function(result) {
+		hashedPassword = result;
+	}).catch(function(err) {
+		console.log(err)
+	})
+	const newForm = new FormDataModel({
+		name: req.body.name,
+		email: req.body.email,
+		password: hashedPassword,
+		age: req.body.age,
+		imgFileName: uploadFileName,
+	});
 	newForm.save((err) => {
 		if (err) {
-			res.status(500).json({
-				error: "Internal Server Error",
-			});
-		} else {
-			let fileName = "showData.html";
-			res.sendFile(fileName, options, function (err) {
-				if (err) {
-					next(err);
-				} else {
-					next();
+			res.status(500).send("Internal server error: "+err);
+			unlink(
+				path.json(
+					__dirname,
+					`/..public/uploaded_file/${uploadFileName}`
+				),
+				(err) => {
+					if (err) console.log(err);
 				}
-			});
+			);
+		} else {
+			res.sendFile(path.join(__dirname + "/showData.html"));
+			console.log("Send file showData.html");
 		}
 	});
 });

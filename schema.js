@@ -4,17 +4,22 @@ const schema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
-    email: {
-        type: String,
-        required: true,
-    },
-    age: {
-        type: Number,
-        require: true
-    },
-    imgFileName: {
-        type: String,
-    }
+	email: {
+		type: String,
+		required: true,
+	},
+	password: {
+		type: String,
+		required: true,
+	},
+	age: {
+		type: Number,
+		require: true,
+	},
+	imgFileName: {
+		type: String,
+		require: true,
+	},
 });
 
 const formDataModel = mongoose.model("Form", schema);

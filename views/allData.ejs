@@ -7,33 +7,28 @@
 		<title>Show all data</title>
 		<link type="text/css" rel="stylesheet" href="../styles/data.css" />
 	</head>
-	<body>
-		<div class="img-div">
-			<h1>Profile Picture</h1>
-			<img
-				src="../uploaded_file/<%= uploadFileName %>"
-				alt="Profile picture"
-			/>
-		</div>
-		<h1>Profile information</h1>
-		<table border="1">
-			<tbody>
-				<tr>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Age</th>
-				</tr>
-				<% try { %> <%# for (let i = 0; i < data.length; i++) { %>
-				<tr>
-					<td><%= data[data.length-1].name %></td>
-					<td><%= data[data.length-1].email %></td>
-					<td><%= data[data.length-1].age %></td>
-				</tr>
-				<%# } %> <% } catch (e) { %>
-				<p>Enternal server error ⚠</p>
-				<p><%= e %></p>
+	<body class="main-container">
+		<div class="profile-container">
+			<div class="img-div">
+				<h2>Profile Picture</h2><hr>
+				<% try { %>
+				<img
+					src="../uploaded_file/<%= data[data.length-1].imgFileName %>"
+					alt="Profile picture"
+				/>
+				<% } catch(e) { %>
+				<p>Profile picture not found <%= e.message %></p>
 				<% } %>
-			</tbody>
-		</table>
+			</div>
+			<h2>Profile information</h2><hr>
+			<% try { %> <%# for (let i = 0; i < data.length; i++) { %>
+			<h1><%= data[data.length-1].name %></h1>
+			<p>Email: <%= data[data.length-1].email %></p>
+			<p>Age: <%= data[data.length-1].age %></p>
+			<%# } %> <% } catch (e) { %>
+			<p>Enternal server error ⚠</p>
+			<p><%= e %></p>
+			<% } %>
+		</div>
 	</body>
 </html>
