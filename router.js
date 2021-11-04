@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const editFormData = require("./editFormData");
 const formData = require("./formData");
 
 router.use("/", formData);
+router.use("/", editFormData);
 
 //render file
 router.get("/all", (req, res) => {

@@ -4,10 +4,11 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const {unlink} = require("fs");
+const { unlink } = require("fs");
 const FormDataModel = require("./schema");
 
 dotenv.config();
+formData.use(express.json());
 const { UPLOAD_FOLDER } = process.env;
 let uploadFileName;
 
@@ -68,15 +69,18 @@ formData.get("/", (req, res) => {
 	});
 });
 
-formData.post("/", upload.single("profile"), (req, res) => {
-	// const saltRounds = 10;
-	// const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-	let hashedPassword;
-	bcrypt.hash(req.body.password, 10).then(function(result) {
-		hashedPassword = result;
-	}).catch(function(err) {
-		console.log(err)
-	})
+formData.post("/", upload.single("profile"), async (req, res) => {
+	const saltRounds = 10;
+	const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+	// let hashedPassword;
+	// bcrypt
+	// 	.hash(req.body.password, 10)
+	// 	.then(function (result) {
+	// 		hashedPassword = result;
+	// 	})
+	// 	.catch(function (err) {
+	// 		console.error(err);
+	// 	});
 	const newForm = new FormDataModel({
 		name: req.body.name,
 		email: req.body.email,
@@ -86,19 +90,22 @@ formData.post("/", upload.single("profile"), (req, res) => {
 	});
 	newForm.save((err) => {
 		if (err) {
-			res.status(500).send("Internal server error: "+err);
+			res.status(500).send("Internal server error: " + err);
+			// deleting unused file
 			unlink(
-				path.json(
-					__dirname,
-					`/..public/uploaded_file/${uploadFileName}`
-				),
+				path.join(__dirname, `/public/uploaded_file/${uploadFileName}`),
 				(err) => {
-					if (err) console.log(err);
+					if (err) console.error(err);
 				}
 			);
 		} else {
-			res.sendFile(path.join(__dirname + "/showData.html"));
-			console.log("Send file showData.html");
+			res.sendFile(path.join(__dirname, "/showData.html"), (err) => {
+				if (err) {
+					console.error(err);
+				} else {
+					console.log("Sent:", uploadFileName);
+				}
+			});
 		}
 	});
 });

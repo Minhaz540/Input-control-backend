@@ -9,13 +9,13 @@
 </head>
 <body>
     <h1>Fill the form for Registration:</h1>
-    <form action="http://localhost:8080/form/" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/form/" method="POST" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Enter your name" required><br>
         <input type="email" name="email" placeholder="Enter your email address" required><br>
         <input type="password" name="password" placeholder="Enter your password" required><br>
         <input type="number" name="age" placeholder="Enter your age" required><br>
         <input type="file" name="profile" placeholder="Upload profile picture" required><br>
-        <button type="submit">Submit</button>
+        <button type="submit" class="btnClick">Submit</button>
     </form>
     <h3>Already have and account? <a href="http://localhost:8080/form/login/">Login now</a></h3>
 </body>
