@@ -70,7 +70,7 @@ formData.get("/", (req, res) => {
 });
 
 formData.post("/", upload.single("profile"), async (req, res) => {
-	const saltRounds = 10;
+	const saltRounds = 5;
 	const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 	// let hashedPassword;
 	// bcrypt
