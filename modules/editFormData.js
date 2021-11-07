@@ -1,7 +1,8 @@
 const express = require("express");
 const editFormData = express.Router();
 const path = require("path");
-const FormDataModel = require("./schema");
+const FormDataModel = require("../models/schema");
+
 
 editFormData.get("/edit", (req, res) => {
 	res.render("editProfileInfo");
