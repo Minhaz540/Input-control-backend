@@ -56,19 +56,6 @@ const upload = multer({
 });
 
 //save formData into database
-
-formData.get("/", (req, res) => {
-	FormDataModel.find({}, (err, data) => {
-		if (err) {
-			res.status(500).json({
-				error: "There was a server side error while showing data",
-			});
-		} else {
-			res.render("allData", { data });
-		}
-	});
-});
-
 formData.post("/", upload.single("profile"), async (req, res) => {
 	const saltRounds = 5;
 	const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -90,13 +77,19 @@ formData.post("/", upload.single("profile"), async (req, res) => {
 				}
 			);
 		} else {
-			res.sendFile(path.join(__dirname, "../html/showData.html"), (err) => {
+			// redirected to the show profile page
+			FormDataModel.find({}, (err, data) => {
 				if (err) {
-					console.error(err);
+					res.status(500).json({
+						error: "There was a server side error while showing data",
+					});
+				} else {
+					res.render("profile", { data });
 				}
 			});
 		}
 	});
+	
 });
 
 module.exports = formData;

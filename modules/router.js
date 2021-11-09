@@ -7,6 +7,8 @@ const formData = require("./formData");
 const login = require("./login");
 
 app.set("view engine", "ejs");
+login.use(express.urlencoded({ extended: true }));
+login.use(express.json());
 
 router.use("/", formData);
 router.use("/", editFormData);
