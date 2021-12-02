@@ -1,11 +1,12 @@
 const express = require("express");
-const formData = express.Router();
+const formData = express();
 const multer = require("multer");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const { unlink } = require("fs");
 const FormDataModel = require("../models/schema");
+const { loginData } = require("../modules/login");
 
 dotenv.config();
 formData.use(express.json());
@@ -57,39 +58,47 @@ const upload = multer({
 
 //save formData into database
 formData.post("/", upload.single("profile"), async (req, res) => {
-	const saltRounds = 5;
-	const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-	const newForm = new FormDataModel({
-		name: req.body.name,
-		email: req.body.email,
-		password: hashedPassword,
-		age: req.body.age,
-		imgFileName: uploadFileName,
-	});
-	newForm.save((err) => {
-		if (err) {
-			res.status(500).send("Internal server error: " + err);
-			// deleting unused file
-			unlink(
-				path.join(__dirname, `../public/uploaded_file/${uploadFileName}`),
-				(err) => {
-					if (err) console.error(err);
-				}
-			);
-		} else {
-			// redirected to the show profile page
-			FormDataModel.find({}, (err, data) => {
-				if (err) {
-					res.status(500).json({
-						error: "There was a server side error while showing data",
-					});
-				} else {
-					res.render("profile", { data });
-				}
-			});
-		}
-	});
-	
+	// will received from the params
+	const loggedInData = loginData;
+	if (loggedInData == null) {
+		const saltRounds = 5;
+		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+		const newForm = new FormDataModel({
+			name: req.body.name,
+			email: req.body.email,
+			password: hashedPassword,
+			age: req.body.age,
+			imgFileName: uploadFileName,
+		});
+		newForm.save((err) => {
+			if (err) {
+				res.status(500).send("Internal server error: " + err);
+				// deleting unused file
+				unlink(
+					path.join(
+						__dirname,
+						`../public/uploaded_file/${uploadFileName}`
+					),
+					(err) => {
+						if (err) console.error(err);
+					}
+				);
+				// redirected to the show profile page
+			} else {
+				FormDataModel.find({}, (err, data) => {
+					if (err) {
+						res.status(500).json({
+							error: "There was a server side error while showing data",
+						});
+					} else {
+						res.render("profile", { data });
+					}
+				});
+			}
+		});
+	} else {
+		res.render("profile", { loggedInData });
+	}
 });
 
 module.exports = formData;

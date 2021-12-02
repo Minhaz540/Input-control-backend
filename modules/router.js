@@ -1,12 +1,11 @@
 const express = require("express");
-const router = express.Router();
-const app = express();
+const router = express();
 const path = require("path");
 const editFormData = require("./editFormData");
 const formData = require("./formData");
-const login = require("./login");
+const { login } = require("./login");
 
-app.set("view engine", "ejs");
+router.set("view engine", "ejs");
 login.use(express.urlencoded({ extended: true }));
 login.use(express.json());
 
